@@ -22,7 +22,7 @@ Rails.application.routes.draw do
       # Timezone endpoints
       # GET /api/v1/zones         - List all available timezones
       # GET /api/v1/zones/:zone   - Get details for a specific timezone
-      resources :zones, only: [:index, :show], param: :zone
+      resources :zones, only: [ :index, :show ], param: :zone
     end
   end
 end
