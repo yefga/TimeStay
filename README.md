@@ -12,8 +12,8 @@ A beginner-friendly Rails API-only project that provides timezone information an
 
 ## 🛠️ Tech Stack
 
-- Ruby 3.x
-- Rails 7+ (API mode)
+- Ruby 4.0
+- Rails 8.1.1 (API mode)
 - Docker & Docker Compose
 - ActiveSupport::TimeZone
 
