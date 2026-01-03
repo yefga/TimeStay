@@ -1,0 +1,101 @@
+# Country to Timezone Mappings
+# ============================
+# This YAML file maps country names to their primary timezones.
+# 
+# Note: Some countries span multiple timezones (e.g., USA, Russia).
+# For simplicity, we use the most common/capital city timezone.
+# This is a learning project - production apps would use more comprehensive data.
+
+# Asia
+Japan: Asia/Tokyo
+China: Asia/Shanghai
+South Korea: Asia/Seoul
+India: Asia/Kolkata
+Singapore: Singapore
+Thailand: Asia/Bangkok
+Vietnam: Asia/Ho_Chi_Minh
+Indonesia: Asia/Jakarta
+Malaysia: Asia/Kuala_Lumpur
+Philippines: Asia/Manila
+Taiwan: Asia/Taipei
+Hong Kong: Asia/Hong_Kong
+Pakistan: Asia/Karachi
+Bangladesh: Asia/Dhaka
+Nepal: Asia/Kathmandu
+Sri Lanka: Asia/Colombo
+Myanmar: Asia/Yangon
+Cambodia: Asia/Phnom_Penh
+Laos: Asia/Vientiane
+
+# Middle East
+Saudi Arabia: Asia/Riyadh
+United Arab Emirates: Asia/Dubai
+Israel: Asia/Jerusalem
+Turkey: Europe/Istanbul
+Iran: Asia/Tehran
+Iraq: Asia/Baghdad
+Kuwait: Asia/Kuwait
+Qatar: Asia/Qatar
+Bahrain: Asia/Bahrain
+Oman: Asia/Muscat
+Jordan: Asia/Amman
+Lebanon: Asia/Beirut
+Syria: Asia/Damascus
+
+# Europe
+United Kingdom: Europe/London
+France: Europe/Paris
+Germany: Europe/Berlin
+Italy: Europe/Rome
+Spain: Europe/Madrid
+Portugal: Europe/Lisbon
+Netherlands: Europe/Amsterdam
+Belgium: Europe/Brussels
+Switzerland: Europe/Zurich
+Austria: Europe/Vienna
+Sweden: Europe/Stockholm
+Norway: Europe/Oslo
+Denmark: Europe/Copenhagen
+Finland: Europe/Helsinki
+Poland: Europe/Warsaw
+Greece: Europe/Athens
+Czech Republic: Europe/Prague
+Hungary: Europe/Budapest
+Ireland: Europe/Dublin
+Romania: Europe/Bucharest
+Ukraine: Europe/Kiev
+Russia: Europe/Moscow
+
+# Americas
+United States: America/New_York
+Canada: America/Toronto
+Mexico: America/Mexico_City
+Brazil: America/Sao_Paulo
+Argentina: America/Argentina/Buenos_Aires
+Chile: America/Santiago
+Colombia: America/Bogota
+Peru: America/Lima
+Venezuela: America/Caracas
+Ecuador: America/Guayaquil
+Cuba: America/Havana
+Puerto Rico: America/Puerto_Rico
+Costa Rica: America/Costa_Rica
+Panama: America/Panama
+
+# Africa
+Egypt: Africa/Cairo
+South Africa: Africa/Johannesburg
+Nigeria: Africa/Lagos
+Kenya: Africa/Nairobi
+Morocco: Africa/Casablanca
+Ethiopia: Africa/Addis_Ababa
+Ghana: Africa/Accra
+Tanzania: Africa/Dar_es_Salaam
+Algeria: Africa/Algiers
+Tunisia: Africa/Tunis
+
+# Oceania
+Australia: Australia/Sydney
+New Zealand: Pacific/Auckland
+Fiji: Pacific/Fiji
+Papua New Guinea: Pacific/Port_Moresby

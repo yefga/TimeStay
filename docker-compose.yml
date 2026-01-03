@@ -1,0 +1,41 @@
+# Docker Compose for TimeStay
+# ===========================
+# This file defines how to run the application using Docker Compose.
+# 
+# Usage:
+#   docker compose up --build    # Build and start the application
+#   docker compose down          # Stop the application
+#   docker compose logs          # View logs
+
+services:
+  # Our Rails API service
+  api:
+    # Build using the Dockerfile in the current directory
+    build: .
+
+    # Map port 3000 on host to port 3000 in container
+    # Access the API at http://localhost:3000
+    ports:
+      - "3000:3000"
+
+    # Set environment variables
+    environment:
+      # Rails environment (development for local work)
+      - RAILS_ENV=development
+      # Bind to all interfaces
+      - BINDING=0.0.0.0
+
+    # Mount current directory to /app in container
+    # This enables live code reloading during development
+    volumes:
+      - .:/app
+      # Use a named volume for bundle gems to improve performance
+      - bundle:/usr/local/bundle
+
+    # Keep container running and attached to terminal
+    tty: true
+    stdin_open: true
+
+# Named volumes persist data between container restarts
+volumes:
+  bundle:
