@@ -55,10 +55,13 @@ class TimezoneService
           }
         else
           # Success! Return the country info with current time
+          now = timezone.now
           {
             country: country,
             timezone: timezone_name,
-            current_time: timezone.now.iso8601
+            currentTime: now.iso8601,
+            date: now.strftime("%Y-%m-%d"),
+            time: now.strftime("%H:%M:%S")
           }
         end
       end
@@ -81,9 +84,9 @@ class TimezoneService
       {
         name: zone.tzinfo.name,
         offset: format_offset(zone.utc_offset),
-        utc_offset: zone.utc_offset
+        utcOffset: zone.utc_offset
       }
-    end.uniq { |z| z[:name] }.sort_by { |z| z[:utc_offset] }
+    end.uniq { |z| z[:name] }.sort_by { |z| z[:utcOffset] }
   end
 
   # Get details for a specific timezone
@@ -109,11 +112,14 @@ class TimezoneService
 
     # Find all countries that use this timezone
     countries_in_zone = COUNTRY_MAPPINGS.select { |_country, tz| tz == zone.tzinfo.name }.keys
+    now = zone.now
 
     {
       name: zone.tzinfo.name,
       offset: format_offset(zone.utc_offset),
-      current_time: zone.now.iso8601,
+      currentTime: now.iso8601,
+      date: now.strftime("%Y-%m-%d"),
+      time: now.strftime("%H:%M:%S"),
       countries: countries_in_zone
     }
   end

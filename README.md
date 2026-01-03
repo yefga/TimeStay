@@ -55,12 +55,16 @@ GET /api/v1/time/current?countries=Japan,China
     {
       "country": "Japan",
       "timezone": "Asia/Tokyo",
-      "current_time": "2026-01-03T13:00:00+09:00"
+      "currentTime": "2026-01-03T15:00:00+09:00",
+      "date": "2026-01-03",
+      "time": "15:00:00"
     },
     {
       "country": "China",
       "timezone": "Asia/Shanghai",
-      "current_time": "2026-01-03T12:00:00+08:00"
+      "currentTime": "2026-01-03T14:00:00+08:00",
+      "date": "2026-01-03",
+      "time": "14:00:00"
     }
   ]
 }
@@ -80,7 +84,7 @@ GET /api/v1/zones
     {
       "name": "Pacific/Midway",
       "offset": "-11:00",
-      "utc_offset": -39600
+      "utcOffset": -39600
     },
     ...
   ]
@@ -100,7 +104,9 @@ GET /api/v1/zones/Asia%2FTokyo
 {
   "name": "Asia/Tokyo",
   "offset": "+09:00",
-  "current_time": "2026-01-03T13:00:00+09:00",
+  "currentTime": "2026-01-03T15:00:00+09:00",
+  "date": "2026-01-03",
+  "time": "15:00:00",
   "countries": ["Japan"]
 }
 ```
