@@ -5,6 +5,8 @@ A beginner-friendly Rails API-only project that provides timezone information an
 ## 🎯 Features
 
 - Get current time for multiple countries
+- **Automatic timezone detection from IP address**
+- **Time gap calculation between your location and other countries**
 - List all available timezones (UTC/GMT offsets)
 - View countries within a specific timezone
 - No database required
@@ -48,6 +50,11 @@ All endpoints are versioned under `/api/v1`.
 GET /api/v1/time/current?countries=Japan,China
 ```
 
+**Features:**
+- Returns current time for multiple countries
+- Automatically detects user's timezone from IP address
+- Calculates time gap between user's location and requested countries
+
 **Example Response:**
 ```json
 {
@@ -57,18 +64,35 @@ GET /api/v1/time/current?countries=Japan,China
       "timezone": "Asia/Tokyo",
       "currentTime": "2026-01-03T15:00:00+09:00",
       "date": "2026-01-03",
-      "time": "15:00:00"
+      "time": "15:00:00",
+      "gap": {
+        "hours": 2.0,
+        "description": "+2 hours",
+        "fromTimezone": "Asia/Bangkok"
+      }
     },
     {
       "country": "China",
       "timezone": "Asia/Shanghai",
       "currentTime": "2026-01-03T14:00:00+08:00",
       "date": "2026-01-03",
-      "time": "14:00:00"
+      "time": "14:00:00",
+      "gap": {
+        "hours": 1.0,
+        "description": "+1 hour",
+        "fromTimezone": "Asia/Bangkok"
+      }
     }
-  ]
+  ],
+  "userTimezone": {
+    "timezone": "Asia/Bangkok",
+    "offset": "+07:00",
+    "detectedFromIp": true
+  }
 }
 ```
+
+> **Note:** The `gap` field shows the time difference from the user's detected timezone. If timezone detection fails (e.g., local IP), the response will not include `gap` data and `userTimezone.detectedFromIp` will be `false`.
 
 ### 2. List All Timezones
 
@@ -124,10 +148,13 @@ TimeStay/
 │   │           └── time/
 │   │               └── current_controller.rb # Current time endpoint
 │   └── services/
-│       └── timezone_service.rb              # Business logic
+│       ├── timezone_service.rb              # Timezone business logic
+│       └── ip_timezone_service.rb           # IP-based timezone detection
 ├── config/
 │   ├── routes.rb                            # API routes
-│   └── timezone_mappings.yml                # Country → Timezone data
+│   ├── timezone_mappings.yml                # Country → Timezone data
+│   └── initializers/
+│       └── geocoder.rb                      # Geocoder configuration
 ├── Dockerfile
 └── docker-compose.yml
 ```

@@ -24,16 +24,27 @@ class TimezoneService
   # Get the current time for a list of countries
   #
   # @param countries [Array<String>] List of country names
-  # @return [Array<Hash>] Array of results with country, timezone, and current time
+  # @param reference_timezone [Hash, nil] Optional reference timezone for gap calculation
+  #   Should have :timezone (name), :utc_offset (seconds) keys
+  # @return [Array<Hash>] Array of results with country, timezone, current time, and optional gap
   #
-  # Example:
+  # Example without reference:
   #   get_current_time(["Japan", "China"])
   #   # => [
   #   #      { country: "Japan", timezone: "Asia/Tokyo", current_time: "..." },
   #   #      { country: "China", timezone: "Asia/Shanghai", current_time: "..." }
   #   #    ]
   #
-  def get_current_time(countries)
+  # Example with reference:
+  #   get_current_time(["Japan"], { timezone: "Asia/Bangkok", utc_offset: 25200 })
+  #   # => [
+  #   #      {
+  #   #        country: "Japan", timezone: "Asia/Tokyo", current_time: "...",
+  #   #        gap: { hours: 2, description: "+2 hours", from_timezone: "Asia/Bangkok" }
+  #   #      }
+  #   #    ]
+  #
+  def get_current_time(countries, reference_timezone: nil)
     countries.map do |country|
       timezone_name = COUNTRY_MAPPINGS[country]
 
@@ -56,16 +67,60 @@ class TimezoneService
         else
           # Success! Return the country info with current time
           now = timezone.now
-          {
+          result = {
             country: country,
             timezone: timezone_name,
             currentTime: now.iso8601,
             date: now.strftime("%Y-%m-%d"),
             time: now.strftime("%H:%M:%S")
           }
+
+          # Add gap information if reference timezone is provided
+          if reference_timezone.present?
+            result[:gap] = calculate_gap(timezone, reference_timezone)
+          end
+
+          result
         end
       end
     end
+  end
+
+  # Calculate the time gap between two timezones
+  #
+  # @param target_timezone [ActiveSupport::TimeZone] The target timezone
+  # @param reference [Hash] Reference timezone with :timezone and :utc_offset keys
+  # @return [Hash] Gap information
+  #
+  def calculate_gap(target_timezone, reference)
+    # Calculate difference in seconds
+    diff_seconds = target_timezone.utc_offset - reference[:utc_offset]
+
+    # Convert to hours (can be fractional for timezones like Nepal +5:45)
+    diff_hours = diff_seconds / 3600.0
+
+    # Format the description
+    description = if diff_hours == 0
+                    "same time"
+    elsif diff_hours > 0
+                    if diff_hours == diff_hours.to_i
+                      "+#{diff_hours.to_i} #{diff_hours.abs == 1 ? 'hour' : 'hours'}"
+                    else
+                      "+#{diff_hours} hours"
+                    end
+    else
+                    if diff_hours == diff_hours.to_i
+                      "#{diff_hours.to_i} #{diff_hours.abs == 1 ? 'hour' : 'hours'}"
+                    else
+                      "#{diff_hours} hours"
+                    end
+    end
+
+    {
+      hours: diff_hours,
+      description: description,
+      fromTimezone: reference[:timezone]
+    }
   end
 
   # Get a list of all available timezones
